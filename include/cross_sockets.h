@@ -28,7 +28,7 @@ int cross_socket_listen_tcp(const CrossSocket* socket, int connections_queue_len
 
 int cross_socket_connect_tcp(const CrossSocket* socket, const IpAddress* ip_address, int port);
 
-CrossSocket cross_socket_accept_tcp(const CrossSocket* socket, const IpAddress* ip_address);
+CrossSocket cross_socket_accept_tcp(const CrossSocket* socket, IpAddress* ip_address);
 
 int cross_socket_receive_tcp(const CrossSocket* socket, const String* buffer);
 
