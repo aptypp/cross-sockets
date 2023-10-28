@@ -14,6 +14,8 @@ typedef struct
     int64_t descriptor;
 } CrossSocket;
 
+void cross_socket_initialize();
+
 CrossSocket cross_socket_open_tcp();
 
 CrossSocket cross_socket_open_udp();
@@ -35,5 +37,7 @@ int cross_socket_receive_udp(const CrossSocket* socket, const String* buffer);
 void cross_socket_send_tcp(const CrossSocket* socket, const String* buffer);
 
 void cross_socket_send_udp(const CrossSocket* socket, const String* buffer, const IpAddress* ip_address);
+
+void cross_socket_cleanup();
 
 #endif //CROSS_SOCKETS_CROSS_SOCKETS_H
