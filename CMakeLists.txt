@@ -5,7 +5,7 @@ set(CMAKE_C_STANDARD 23)
 
 add_library(cross_sockets SHARED src/cross_sockets.c
         src/ip_address.c
-        src/main.c)
+        src/string.c)
 
 target_include_directories(cross_sockets PUBLIC ${CMAKE_SOURCE_DIR}/include)
 
