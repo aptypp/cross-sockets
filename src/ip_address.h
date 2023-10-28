@@ -13,6 +13,6 @@ typedef struct
     int len;
 } IpAddress;
 
-IpAddress* ip_address_new(const char* address);
+IpAddress ip_address_new(const char* address);
 
 #endif //CROSS_SOCKETS_IP_ADDRESS_H
