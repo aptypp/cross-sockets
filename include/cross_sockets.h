@@ -32,11 +32,11 @@ CrossSocket cross_socket_accept_tcp(const CrossSocket* socket, IpAddress* ip_add
 
 int cross_socket_receive_tcp(const CrossSocket* socket, const String* buffer);
 
-int cross_socket_receive_udp(const CrossSocket* socket, const String* buffer);
+int cross_socket_receive_udp(const CrossSocket* socket, const String* buffer, IpAddress* ip_address);
 
 void cross_socket_send_tcp(const CrossSocket* socket, const String* buffer);
 
-void cross_socket_send_udp(const CrossSocket* socket, const String* buffer, const IpAddress* ip_address);
+void cross_socket_send_udp(const CrossSocket* socket, const String* buffer, const IpAddress* ip_address, int port);
 
 void cross_socket_cleanup();
 
