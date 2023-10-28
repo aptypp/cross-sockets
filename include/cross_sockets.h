@@ -11,7 +11,7 @@
 
 typedef struct
 {
-    int64_t descriptor;
+    uint64_t descriptor;
 } CrossSocket;
 
 void cross_socket_initialize();
