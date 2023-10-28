@@ -26,7 +26,7 @@ void cross_socket_bind(const CrossSocket* socket, int port);
 
 int cross_socket_listen_tcp(const CrossSocket* socket, int connections_queue_length);
 
-int cross_socket_connect_tcp(const CrossSocket* socket, const IpAddress* ip_address);
+int cross_socket_connect_tcp(const CrossSocket* socket, const IpAddress* ip_address, int port);
 
 int cross_socket_accept_tcp(const CrossSocket* socket, const IpAddress* ip_address);
 
