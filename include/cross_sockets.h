@@ -33,6 +33,6 @@ int cross_socket_receive_udp(const CrossSocket* socket, char* buffer, int buffer
 
 void cross_socket_send_tcp(const CrossSocket* socket, char* buffer, int buffer_size);
 
-void cross_socket_send_udp(const CrossSocket* socket, char* buffer, int buffer_size, char* address, int* address_len);
+void cross_socket_send_udp(const CrossSocket* socket, char* buffer, int buffer_size, const IpAddress* ip_address);
 
 #endif //CROSS_SOCKETS_CROSS_SOCKETS_H
