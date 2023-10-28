@@ -8,7 +8,7 @@ IpAddress ip_address_new(const char* address)
 {
     IpAddress ip_address;
 
-    stpcpy(ip_address.address, address);
+    strcpy(ip_address.address, address);
 
     ip_address.len = (int) strlen(address);
 
