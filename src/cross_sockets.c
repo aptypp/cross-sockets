@@ -3,8 +3,9 @@
 //
 
 #include "cross_sockets.h"
+#include "malloc_extension.h"
 
 void s()
 {
-
+    int* a = allocate(int, 1);
 }

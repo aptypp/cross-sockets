@@ -10,7 +10,7 @@ IpAddress ip_address_new(const char* address)
 
     strcpy(ip_address.address, address);
 
-    ip_address.len = (int) strlen(address);
+    ip_address.len = strlen(address);
 
     return ip_address;
 }

@@ -6,11 +6,12 @@
 #define CROSS_SOCKETS_IP_ADDRESS_H
 
 #include <string.h>
+#include <stdint.h>
 
 typedef struct
 {
     char* address;
-    int len;
+    uint64_t len;
 } IpAddress;
 
 IpAddress ip_address_new(const char* address);
