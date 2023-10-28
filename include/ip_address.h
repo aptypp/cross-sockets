@@ -10,8 +10,7 @@
 
 typedef struct
 {
-    char* address;
-    uint64_t len;
+    String address;
 } IpAddress;
 
 IpAddress ip_address_new(const char* address);
