@@ -7,6 +7,7 @@
 
 #include <stdint.h>
 #include "ip_address.h"
+#include "string.h"
 
 typedef struct
 {
@@ -27,12 +28,12 @@ int cross_socket_connect_tcp(const CrossSocket* socket, const IpAddress* ip_addr
 
 int cross_socket_accept_tcp(const CrossSocket* socket, const IpAddress* ip_address);
 
-int cross_socket_receive_tcp(const CrossSocket* socket, char* buffer, int buffer_size);
+int cross_socket_receive_tcp(const CrossSocket* socket, const String* buffer);
 
-int cross_socket_receive_udp(const CrossSocket* socket, char* buffer, int buffer_size);
+int cross_socket_receive_udp(const CrossSocket* socket, const String* buffer);
 
-void cross_socket_send_tcp(const CrossSocket* socket, char* buffer, int buffer_size);
+void cross_socket_send_tcp(const CrossSocket* socket, const String* buffer);
 
-void cross_socket_send_udp(const CrossSocket* socket, char* buffer, int buffer_size, const IpAddress* ip_address);
+void cross_socket_send_udp(const CrossSocket* socket, const String* buffer, const IpAddress* ip_address);
 
 #endif //CROSS_SOCKETS_CROSS_SOCKETS_H
