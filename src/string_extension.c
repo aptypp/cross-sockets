@@ -2,7 +2,7 @@
 // Created by Yurii on 10/28/2023.
 //
 
-#include "string.h"
+#include <string_extension.h>
 #include <string.h>
 #include <stdlib.h>
 

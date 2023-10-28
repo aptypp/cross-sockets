@@ -36,4 +36,10 @@ target_include_directories(cross_sockets PUBLIC ${CMAKE_SOURCE_DIR}/include)
 
 add_executable(cross_sockets_test src/main.c)
 
+if (TARGET_IS_WINDOWS)
+    target_link_libraries(cross_sockets PRIVATE wsock32 ws2_32)
+else ()
+    #target_link_libraries(cross_sockets PRIVATE cross_sockets)
+endif ()
+
 target_link_libraries(cross_sockets_test PRIVATE cross_sockets)

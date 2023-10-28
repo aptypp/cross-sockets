@@ -7,7 +7,7 @@
 
 #include <stdint.h>
 #include "ip_address.h"
-#include "string.h"
+#include "string_extension.h"
 
 typedef struct
 {

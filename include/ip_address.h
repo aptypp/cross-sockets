@@ -5,7 +5,7 @@
 #ifndef CROSS_SOCKETS_IP_ADDRESS_H
 #define CROSS_SOCKETS_IP_ADDRESS_H
 
-#include <string.h>
+#include <string_extension.h>
 #include <stdint.h>
 
 typedef struct

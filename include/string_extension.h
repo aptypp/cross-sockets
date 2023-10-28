@@ -2,8 +2,8 @@
 // Created by Yurii on 10/28/2023.
 //
 
-#ifndef CROSS_SOCKETS_STRING_H
-#define CROSS_SOCKETS_STRING_H
+#ifndef CROSS_SOCKETS_STRING_EXTENSION_H
+#define CROSS_SOCKETS_STRING_EXTENSION_H
 
 #include <stdint.h>
 
@@ -20,4 +20,4 @@ String string_copy(const String* string);
 
 void string_free(const String* string);
 
-#endif //CROSS_SOCKETS_STRING_H
+#endif //CROSS_SOCKETS_STRING_EXTENSION_H
