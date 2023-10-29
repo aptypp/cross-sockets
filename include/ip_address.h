@@ -8,7 +8,7 @@
 #include <string_extension.h>
 #include <stdint.h>
 
-typedef struct
+typedef struct IpAddress
 {
     String address;
 } IpAddress;

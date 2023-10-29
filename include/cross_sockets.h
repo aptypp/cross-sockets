@@ -9,7 +9,7 @@
 #include "ip_address.h"
 #include "string_extension.h"
 
-typedef struct
+typedef struct CrossSocket
 {
     uint64_t descriptor;
 } CrossSocket;

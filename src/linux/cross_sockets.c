@@ -65,7 +65,7 @@ CrossSocket cross_socket_accept_tcp(const CrossSocket* socket, IpAddress* ip_add
     socklen_t address_len;
     struct sockaddr_in connection_address;
 
-    result.descriptor = accept(socket->descriptor, (struct sockaddr*) &connection_address, &address_len);
+    result.descriptor = accept((int) socket->descriptor, (struct sockaddr*) &connection_address, &address_len);
 
     ip_address->address = string_new(inet_ntoa(connection_address.sin_addr));
 
@@ -74,7 +74,7 @@ CrossSocket cross_socket_accept_tcp(const CrossSocket* socket, IpAddress* ip_add
 
 int cross_socket_receive_tcp(const CrossSocket* socket, const String* buffer)
 {
-    return recv((int) socket->descriptor, buffer->buffer, buffer->length, 0);
+    return recv((int) socket->descriptor, buffer->buffer + buffer->length, buffer->capacity, 0);
 }
 
 int cross_socket_receive_udp(const CrossSocket* socket, const String* buffer, IpAddress* ip_address, int* port)
@@ -82,7 +82,7 @@ int cross_socket_receive_udp(const CrossSocket* socket, const String* buffer, Ip
     socklen_t address_length;
     struct sockaddr_in connection_address;
 
-    ssize_t errcode = recvfrom((int) socket->descriptor, buffer->buffer, buffer->length, 0,
+    ssize_t errcode = recvfrom((int) socket->descriptor, buffer->buffer, buffer->capacity, 0,
                                (struct sockaddr*) &connection_address,
                                &address_length);
 

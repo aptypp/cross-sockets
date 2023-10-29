@@ -70,14 +70,14 @@ CrossSocket cross_socket_accept_tcp(const CrossSocket* socket, IpAddress* ip_add
 }
 
 int cross_socket_receive_tcp(const CrossSocket* socket, const String* buffer) {
-    return recv(socket->descriptor, buffer->buffer, (int)buffer->length, 0);
+    return recv(socket->descriptor, buffer->buffer, (int)buffer->capacity, 0);
 }
 
 int cross_socket_receive_udp(const CrossSocket* socket, const String* buffer, IpAddress* ip_address, int* port) {
     SOCKADDR_IN client_address;
     int client_address_length = sizeof(client_address);
 
-    int result = recvfrom(socket->descriptor, buffer->buffer, (int)sizeof(buffer->length), 0, (SOCKADDR*)&client_address, &client_address_length);
+    int result = recvfrom(socket->descriptor, buffer->buffer, (int)sizeof(buffer->capacity), 0, (SOCKADDR*)&client_address, &client_address_length);
 
     ip_address->address = string_new(inet_ntoa(client_address.sin_addr));
     *port = ntohs(client_address.sin_port);

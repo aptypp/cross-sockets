@@ -20,9 +20,9 @@ int main()
     {
         IpAddress ip_address;
         client_socket = cross_socket_accept_tcp(&server_socket, &ip_address);
-        fprintf(stderr, "New connection!");
+        printf("%s", "New connection!");
 
-        String hello_message = string_new("Connected!");
+        String hello_message = string_new("You successfully connected :)");
         cross_socket_send_tcp(&client_socket, &hello_message);
 
         string_free(&ip_address.address);
