@@ -8,105 +8,102 @@
 #include <arpa/inet.h>
 #include "cross_sockets.h"
 
-CrossSocket cross_socket_open_tcp()
+uint64_t cross_socket_open_tcp()
 {
-    CrossSocket result;
+    uint64_t descriptor;
 
-    result.descriptor = socket(AF_INET, SOCK_STREAM, 0);
+    descriptor = socket(AF_INET, SOCK_STREAM, 0);
 
-    return result;
+    return descriptor;
 }
 
-CrossSocket cross_socket_open_udp()
+uint64_t cross_socket_open_udp()
 {
-    CrossSocket result;
+    uint64_t descriptor;
 
-    result.descriptor = socket(AF_INET, SOCK_DGRAM, 0);
+    descriptor = socket(AF_INET, SOCK_DGRAM, 0);
 
-    return result;
+    return descriptor;
 }
 
-void cross_socket_close(const CrossSocket* socket)
+void cross_socket_close(uint64_t descriptor)
 {
-    close((int) socket->descriptor);
+    close((int32_t) descriptor);
 }
 
-void cross_socket_bind(const CrossSocket* socket, int port)
+int32_t cross_socket_bind(uint64_t descriptor, int32_t in_port)
 {
     struct sockaddr_in server_address;
 
     server_address.sin_family = AF_INET;
     server_address.sin_addr.s_addr = htonl(INADDR_LOOPBACK);
-    server_address.sin_port = htons(port);
+    server_address.sin_port = htons(in_port);
 
-    int error_code = bind((int) socket->descriptor, (const struct sockaddr*) &server_address, sizeof(server_address));
+    return bind((int) descriptor, (const struct sockaddr*) &server_address, sizeof(server_address));
 }
 
-int cross_socket_listen_tcp(const CrossSocket* socket, int connections_queue_length)
+int32_t cross_socket_listen_tcp(uint64_t descriptor, int32_t connections_queue_length)
 {
-    return listen((int) socket->descriptor, connections_queue_length);;
+    return listen((int32_t) descriptor, connections_queue_length);;
 }
 
-int cross_socket_connect_tcp(const CrossSocket* socket, const IpAddress* ip_address, int port)
+int32_t cross_socket_connect_tcp(uint64_t descriptor, uint32_t in_address, int32_t in_port)
 {
     struct sockaddr_in connection_address;
 
     connection_address.sin_family = AF_INET;
-    connection_address.sin_addr.s_addr = inet_addr(ip_address->address.buffer);
-    connection_address.sin_port = htons(port);
+    connection_address.sin_addr.s_addr = htonl(in_address);
+    connection_address.sin_port = htons(in_port);
 
-    return connect((int) socket->descriptor, (const struct sockaddr*) &connection_address, sizeof(connection_address));
+    return connect((int) descriptor, (const struct sockaddr*) &connection_address, sizeof(connection_address));
 }
 
-CrossSocket cross_socket_accept_tcp(const CrossSocket* socket, IpAddress* ip_address)
+uint64_t cross_socket_accept_tcp(uint64_t descriptor, uint32_t* out_address)
 {
-    CrossSocket result;
+    uint64_t result;
 
     socklen_t address_len;
     struct sockaddr_in connection_address;
 
-    result.descriptor = accept((int) socket->descriptor, (struct sockaddr*) &connection_address, &address_len);
+    result = accept((int) descriptor, (struct sockaddr*) &connection_address, &address_len);
 
-    ip_address->address = string_new(inet_ntoa(connection_address.sin_addr));
+    *out_address = ntohl(connection_address.sin_addr.s_addr);
 
     return result;
 }
 
-int cross_socket_receive_tcp(const CrossSocket* socket, const String* buffer)
+int32_t cross_socket_receive_tcp(uint64_t descriptor, char* out_buffer, uint32_t in_buffer_length)
 {
-    return recv((int) socket->descriptor, buffer->buffer + buffer->length, buffer->capacity, 0);
+    return (int32_t) recv((int32_t) descriptor, out_buffer, in_buffer_length, 0);
 }
 
-int cross_socket_receive_udp(const CrossSocket* socket, const String* buffer, IpAddress* ip_address, int* port)
+int32_t cross_socket_receive_udp(uint64_t descriptor, char* out_buffer, uint32_t in_buffer_length, uint32_t* out_address, int32_t* out_port)
 {
     socklen_t address_length;
     struct sockaddr_in connection_address;
 
-    ssize_t errcode = recvfrom((int) socket->descriptor, buffer->buffer, buffer->capacity, 0,
-                               (struct sockaddr*) &connection_address,
-                               &address_length);
+    int32_t errcode = (int32_t) recvfrom((int) descriptor, out_buffer, in_buffer_length, 0, (struct sockaddr*) &connection_address, &address_length);
 
-    ip_address->address = string_new(inet_ntoa(connection_address.sin_addr));
-    *port = ntohs(connection_address.sin_port);
+    *out_address = ntohl(connection_address.sin_addr.s_addr);
+    *out_port = ntohs(connection_address.sin_port);
 
-    return (int) errcode;
+    return errcode;
 }
 
-void cross_socket_send_tcp(const CrossSocket* socket, const String* buffer)
+void cross_socket_send_tcp(uint64_t descriptor, const char* in_buffer, uint32_t in_buffer_length)
 {
-    send((int) socket->descriptor, buffer->buffer, buffer->length, 0);
+    send((int32_t) descriptor, in_buffer, in_buffer_length, 0);
 }
 
-void cross_socket_send_udp(const CrossSocket* socket, const String* buffer, const IpAddress* ip_address, int port)
+void cross_socket_send_udp(uint64_t descriptor, const char* in_buffer, uint32_t in_buffer_length, uint32_t in_address, int32_t in_port)
 {
     struct sockaddr_in connection_address;
 
     connection_address.sin_family = AF_INET;
-    connection_address.sin_addr.s_addr = inet_addr(ip_address->address.buffer);
-    connection_address.sin_port = htons(port);
+    connection_address.sin_addr.s_addr = htonl(in_address);
+    connection_address.sin_port = htons(in_port);
 
-    sendto((int) socket->descriptor, buffer->buffer, buffer->length, 0, (struct sockaddr*) &connection_address,
-           sizeof(connection_address));
+    sendto((int32_t) descriptor, in_buffer, in_buffer_length, 0, (struct sockaddr*) &connection_address, sizeof(connection_address));
 }
 
 void cross_socket_initialize()

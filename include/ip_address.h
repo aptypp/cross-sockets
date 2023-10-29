@@ -8,11 +8,8 @@
 #include <string_extension.h>
 #include <stdint.h>
 
-typedef struct IpAddress
-{
-    String address;
-} IpAddress;
+uint32_t string_address_to_integer(const char* address);
 
-IpAddress ip_address_new(const char* address);
+char* integer_address_to_string(uint32_t address);
 
 #endif //CROSS_SOCKETS_IP_ADDRESS_H

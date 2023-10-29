@@ -9,34 +9,31 @@
 #include "ip_address.h"
 #include "string_extension.h"
 
-typedef struct CrossSocket
-{
-    uint64_t descriptor;
-} CrossSocket;
-
 void cross_socket_initialize();
 
-CrossSocket cross_socket_open_tcp();
+uint64_t cross_socket_open_tcp();
 
-CrossSocket cross_socket_open_udp();
+uint64_t cross_socket_open_udp();
 
-void cross_socket_close(const CrossSocket* socket);
+void cross_socket_close(uint64_t descriptor);
 
-void cross_socket_bind(const CrossSocket* socket, int port);
+int32_t cross_socket_bind(uint64_t descriptor, int32_t in_port);
 
-int cross_socket_listen_tcp(const CrossSocket* socket, int connections_queue_length);
+int32_t cross_socket_listen_tcp(uint64_t descriptor, int32_t connections_queue_length);
 
-int cross_socket_connect_tcp(const CrossSocket* socket, const IpAddress* ip_address, int port);
+int32_t cross_socket_connect_tcp(uint64_t descriptor, uint32_t in_address, int32_t in_port);
 
-CrossSocket cross_socket_accept_tcp(const CrossSocket* socket, IpAddress* ip_address);
+uint64_t cross_socket_accept_tcp(uint64_t descriptor, uint32_t* out_address);
 
-int cross_socket_receive_tcp(const CrossSocket* socket, const String* buffer);
+int32_t cross_socket_receive_tcp(uint64_t descriptor, char* out_buffer, uint32_t in_buffer_length);
 
-int cross_socket_receive_udp(const CrossSocket* socket, const String* buffer, IpAddress* ip_address, int* port);
+int32_t cross_socket_receive_udp(uint64_t descriptor, char* out_buffer, uint32_t in_buffer_length, uint32_t* out_address, int32_t* out_port);
 
-void cross_socket_send_tcp(const CrossSocket* socket, const String* buffer);
+void cross_socket_send_tcp(uint64_t descriptor, const char* in_buffer, uint32_t in_buffer_length);
 
-void cross_socket_send_udp(const CrossSocket* socket, const String* buffer, const IpAddress* ip_address, int port);
+void cross_socket_send_udp(uint64_t descriptor, const char* in_buffer, uint32_t in_buffer_length, uint32_t in_address, int32_t in_port);
+
+char* get_error(int32_t error_code);
 
 void cross_socket_cleanup();
 
