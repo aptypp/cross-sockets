@@ -108,3 +108,13 @@ void cross_socket_send_udp(const CrossSocket* socket, const String* buffer, cons
     sendto((int) socket->descriptor, buffer->buffer, buffer->length, 0, (struct sockaddr*) &connection_address,
            sizeof(connection_address));
 }
+
+void cross_socket_initialize()
+{
+
+}
+
+void cross_socket_cleanup()
+{
+
+}

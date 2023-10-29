@@ -16,11 +16,11 @@ int main()
 
     CrossSocket client_socket;
 
-    while (true) {
+    while (true)
+    {
         IpAddress ip_address;
         client_socket = cross_socket_accept_tcp(&server_socket, &ip_address);
-        printf("New connection!");
-
+        fprintf(stderr, "New connection!");
 
         String hello_message = string_new("Connected!");
         cross_socket_send_tcp(&client_socket, &hello_message);

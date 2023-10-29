@@ -3,6 +3,8 @@ project(cross_sockets C)
 
 set(CMAKE_C_STANDARD 23)
 
+#START platform settings
+
 set(CHOOSE_TARGET_PLATFORM_AUTO true)
 set(TARGET_IS_WINDOWS true)
 
@@ -21,6 +23,10 @@ else ()
     message(STATUS "TARGET FOR LINUX")
 endif ()
 
+#END platform settings
+
+#START cross_socket_library
+
 if (TARGET_IS_WINDOWS)
     FILE(GLOB PLATFORM_DEPENDENT_SRC src/windows/*.c)
 else ()
@@ -32,14 +38,26 @@ FILE(GLOB INDEPENDENT_SRC src/*.c)
 add_library(cross_sockets SHARED ${INDEPENDENT_SRC}
         ${PLATFORM_DEPENDENT_SRC})
 
-target_include_directories(cross_sockets PUBLIC ${CMAKE_SOURCE_DIR}/include)
-
-add_executable(cross_sockets_test src/main.c)
-
 if (TARGET_IS_WINDOWS)
     target_link_libraries(cross_sockets PRIVATE wsock32 ws2_32)
 else ()
-    #target_link_libraries(cross_sockets PRIVATE cross_sockets)
+    #target_link_libraries(cross_sockets PRIVATE )
 endif ()
 
-target_link_libraries(cross_sockets_test PRIVATE cross_sockets)
+target_include_directories(cross_sockets PUBLIC ${CMAKE_SOURCE_DIR}/include)
+
+#END cross_sockets_library
+
+#START client_executable
+add_executable(client client/main.c)
+
+target_link_libraries(client PRIVATE cross_sockets)
+
+#END client_executable
+
+#START server_executable
+add_executable(server server/main.c)
+
+target_link_libraries(server PRIVATE cross_sockets)
+
+#END server_executable
