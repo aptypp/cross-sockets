@@ -31,7 +31,7 @@ void cross_socket_send_tcp(uint64_t descriptor, const char* in_buffer, uint32_t 
 
 void cross_socket_send_udp(uint64_t descriptor, const char* in_buffer, uint32_t in_buffer_length, uint32_t in_address, int32_t in_port);
 
-char* get_error(int32_t error_code);
+const char* get_error();
 
 void cross_socket_cleanup();
 
