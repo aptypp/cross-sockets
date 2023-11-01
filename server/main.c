@@ -3,6 +3,7 @@
 //
 #include <stdio.h>
 #include "cross_sockets.h"
+#include "string_extension.h"
 
 int main()
 {

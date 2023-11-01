@@ -6,8 +6,6 @@
 #define CROSS_SOCKETS_CROSS_SOCKETS_H
 
 #include <stdint.h>
-#include "ip_address.h"
-#include "string_extension.h"
 
 void cross_socket_initialize();
 

@@ -5,7 +5,6 @@
 #include <sys/socket.h>
 #include <unistd.h>
 #include <netinet/in.h>
-#include <arpa/inet.h>
 #include "cross_sockets.h"
 
 uint64_t cross_socket_open_tcp()

@@ -3,6 +3,8 @@
 //
 #include <stdio.h>
 #include "cross_sockets.h"
+#include "ip_address.h"
+#include "string_extension.h"
 
 int main()
 {
