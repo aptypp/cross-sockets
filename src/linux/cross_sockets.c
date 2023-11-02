@@ -32,12 +32,12 @@ void cross_socket_close(uint64_t descriptor)
     close((int32_t) descriptor);
 }
 
-int32_t cross_socket_bind(uint64_t descriptor, uint32_t in_address, uint16_t in_port)
+int32_t cross_socket_bind(uint64_t descriptor, uint16_t in_port)
 {
     struct sockaddr_in server_address;
 
     server_address.sin_family = AF_INET;
-    server_address.sin_addr.s_addr = htonl(in_address);
+    server_address.sin_addr.s_addr = htonl(INADDR_ANY);
     server_address.sin_port = htons(in_port);
 
     return bind((int) descriptor, (const struct sockaddr*) &server_address, sizeof(server_address));
