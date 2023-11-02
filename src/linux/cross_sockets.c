@@ -8,6 +8,8 @@
 #include <string.h>
 #include <errno.h>
 #include "cross_sockets.h"
+#include "logger/logger.h"
+#include "stdio.h"
 
 uint64_t cross_socket_open_tcp()
 {

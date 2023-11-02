@@ -27,6 +27,9 @@ endif ()
 
 set(IS_DYNAMIC_LIBRARY false)
 
+link_directories(cross_sockets
+        ${PROJECT_SOURCE_DIR}/lib/logger)
+
 #START cross_socket_library
 
 if (TARGET_IS_WINDOWS)
@@ -47,9 +50,9 @@ else ()
 endif ()
 
 if (TARGET_IS_WINDOWS)
-    target_link_libraries(cross_sockets PRIVATE wsock32 ws2_32)
+    target_link_libraries(cross_sockets PRIVATE wsock32 ws2_32 logger)
 else ()
-    #target_link_libraries(cross_sockets PRIVATE )
+    target_link_libraries(cross_sockets PRIVATE logger)
 endif ()
 
 target_include_directories(cross_sockets PUBLIC ${CMAKE_SOURCE_DIR}/include)
@@ -59,13 +62,13 @@ target_include_directories(cross_sockets PUBLIC ${CMAKE_SOURCE_DIR}/include)
 #START client_executable
 add_executable(client client/main.c)
 
-target_link_libraries(client PRIVATE cross_sockets)
+target_link_libraries(client PRIVATE cross_sockets logger)
 
 #END client_executable
 
 #START server_executable
 add_executable(server server/main.c)
 
-target_link_libraries(server PRIVATE cross_sockets)
+target_link_libraries(server PRIVATE cross_sockets logger)
 
 #END server_executable
