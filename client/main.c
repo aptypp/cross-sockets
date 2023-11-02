@@ -9,12 +9,16 @@
 
 int main()
 {
+
+
     cross_socket_initialize();
 
     uint64_t communication_socket = cross_socket_open_udp();
 
     uint32_t server_ip_address = string_address_to_integer("51.20.184.146");
     uint16_t server_port = 12345;
+
+    //cross_socket_bind(communication_socket, 12346);
 
     char message[] = "Hello, my name is Client!\n";
 
@@ -35,7 +39,7 @@ int main()
 
     fprintf(stderr, "end receive\n");
 
-    fprintf(stderr, "Message from server: %s\n", buffer);
+    fprintf(stderr, "Message from server: %s, address: %s, port: %d\n", buffer, integer_address_to_string(ip_address), port);
 
     cross_socket_cleanup();
 }
