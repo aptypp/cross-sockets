@@ -20,11 +20,13 @@ int main()
     while (true)
     {
         uint32_t ip_address;
-        client_socket = cross_socket_accept_tcp(server_socket, &ip_address);
+        uint16_t port;
+
+        client_socket = cross_socket_accept_tcp(server_socket, &ip_address, &port);
         printf("%s", "New connection!");
 
         String hello_message = string_new("You successfully connected :)");
-        cross_socket_send_tcp(client_socket, hello_message.buffer, hello_message.length);
+        cross_socket_send_udp(client_socket, hello_message.buffer, hello_message.length, ip_address, port);
     }
 
     cross_socket_cleanup();

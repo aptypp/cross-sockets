@@ -5,6 +5,8 @@
 #include <sys/socket.h>
 #include <unistd.h>
 #include <netinet/in.h>
+#include <string.h>
+#include <errno.h>
 #include "cross_sockets.h"
 
 uint64_t cross_socket_open_tcp()
@@ -30,7 +32,7 @@ void cross_socket_close(uint64_t descriptor)
     close((int32_t) descriptor);
 }
 
-int32_t cross_socket_bind(uint64_t descriptor, int32_t in_port)
+int32_t cross_socket_bind(uint64_t descriptor, uint16_t in_port)
 {
     struct sockaddr_in server_address;
 
@@ -41,12 +43,12 @@ int32_t cross_socket_bind(uint64_t descriptor, int32_t in_port)
     return bind((int) descriptor, (const struct sockaddr*) &server_address, sizeof(server_address));
 }
 
-int32_t cross_socket_listen_tcp(uint64_t descriptor, int32_t connections_queue_length)
+int32_t cross_socket_listen_tcp(uint64_t descriptor, uint16_t connections_queue_length)
 {
-    return listen((int32_t) descriptor, connections_queue_length);;
+    return listen((int32_t) descriptor, connections_queue_length);
 }
 
-int32_t cross_socket_connect_tcp(uint64_t descriptor, uint32_t in_address, int32_t in_port)
+int32_t cross_socket_connect_tcp(uint64_t descriptor, uint32_t in_address, uint16_t in_port)
 {
     struct sockaddr_in connection_address;
 
@@ -57,7 +59,7 @@ int32_t cross_socket_connect_tcp(uint64_t descriptor, uint32_t in_address, int32
     return connect((int) descriptor, (const struct sockaddr*) &connection_address, sizeof(connection_address));
 }
 
-uint64_t cross_socket_accept_tcp(uint64_t descriptor, uint32_t* out_address)
+uint64_t cross_socket_accept_tcp(uint64_t descriptor, uint32_t* out_address, uint16_t* out_port)
 {
     uint64_t result;
 
@@ -67,6 +69,7 @@ uint64_t cross_socket_accept_tcp(uint64_t descriptor, uint32_t* out_address)
     result = accept((int) descriptor, (struct sockaddr*) &connection_address, &address_len);
 
     *out_address = ntohl(connection_address.sin_addr.s_addr);
+    *out_port = ntohs(connection_address.sin_port);
 
     return result;
 }
@@ -76,7 +79,7 @@ int32_t cross_socket_receive_tcp(uint64_t descriptor, char* out_buffer, uint32_t
     return (int32_t) recv((int32_t) descriptor, out_buffer, in_buffer_length, 0);
 }
 
-int32_t cross_socket_receive_udp(uint64_t descriptor, char* out_buffer, uint32_t in_buffer_length, uint32_t* out_address, int32_t* out_port)
+int32_t cross_socket_receive_udp(uint64_t descriptor, char* out_buffer, uint32_t in_buffer_length, uint32_t* out_address, uint16_t* out_port)
 {
     socklen_t address_length;
     struct sockaddr_in connection_address;
@@ -94,7 +97,7 @@ void cross_socket_send_tcp(uint64_t descriptor, const char* in_buffer, uint32_t 
     send((int32_t) descriptor, in_buffer, in_buffer_length, 0);
 }
 
-void cross_socket_send_udp(uint64_t descriptor, const char* in_buffer, uint32_t in_buffer_length, uint32_t in_address, int32_t in_port)
+void cross_socket_send_udp(uint64_t descriptor, const char* in_buffer, uint32_t in_buffer_length, uint32_t in_address, uint16_t in_port)
 {
     struct sockaddr_in connection_address;
 
@@ -113,4 +116,9 @@ void cross_socket_initialize()
 void cross_socket_cleanup()
 {
 
+}
+
+const char* get_error()
+{
+    return strerror(errno);
 }

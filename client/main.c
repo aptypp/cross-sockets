@@ -21,9 +21,12 @@ int main()
 
     String response = string_new_capacity(50);
 
-    cross_socket_receive_tcp(communication_socket, response.buffer, response.capacity);
+    uint32_t ip_address;
+    uint16_t port;
 
-    printf("%s%s", "Message from server: ", response.buffer);
+    cross_socket_receive_udp(communication_socket, response.buffer, response.capacity, &ip_address, &port);
+
+    printf("Message from server: %s", response.buffer);
 
     string_free(&response);
 
