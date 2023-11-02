@@ -2,6 +2,7 @@
 // Created by artur on 28.10.23.
 //
 #include <stdio.h>
+#include <string.h>
 #include "cross_sockets.h"
 #include "string_extension.h"
 #include "ip_address.h"
@@ -10,25 +11,32 @@ int main()
 {
     cross_socket_initialize();
 
-    uint64_t server_socket = cross_socket_open_tcp();
+    uint64_t server_socket = cross_socket_open_udp();
 
     cross_socket_bind(server_socket, 12345);
 
-    cross_socket_listen_tcp(server_socket, 10);
-
-    uint64_t client_socket;
+    char buffer[256];
 
     while (true)
     {
         uint32_t ip_address;
         uint16_t port;
 
-        client_socket = cross_socket_accept_tcp(server_socket, &ip_address, &port);
-        printf("%s", "New connection!");
+        fprintf(stderr, "start receive\n");
 
-        String hello_message = string_new("You successfully connected :)");
-        cross_socket_send_tcp(client_socket, hello_message.buffer, hello_message.length);
-        //cross_socket_send_udp(client_socket, hello_message.buffer, hello_message.length, ip_address, port);
+        cross_socket_receive_udp(server_socket, buffer, 256, &ip_address, &port);
+
+        fprintf(stderr, "Message from client: %s, address: %s, port: %d\n", buffer, integer_address_to_string(ip_address), port);
+
+        fprintf(stderr, "end receive\n");
+
+        char message[] = "Hello from server\n";
+
+        fprintf(stderr, "start send\n");
+
+        cross_socket_send_udp(server_socket, message, strlen(message), ip_address, port);
+
+        fprintf(stderr, "end send\n");
     }
 
     cross_socket_cleanup();
