@@ -8,17 +8,11 @@
 
 int main()
 {
-    char buffer[256];
-
-    scanf("%s", buffer);
-
-    uint32_t bind_address = string_address_to_integer(buffer);
-
     cross_socket_initialize();
 
     uint64_t server_socket = cross_socket_open_tcp();
 
-    cross_socket_bind(server_socket, bind_address, 12345);
+    cross_socket_bind(server_socket, 12345);
 
     cross_socket_listen_tcp(server_socket, 10);
 

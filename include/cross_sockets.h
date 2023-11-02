@@ -15,7 +15,7 @@ uint64_t cross_socket_open_udp();
 
 void cross_socket_close(uint64_t descriptor);
 
-int32_t cross_socket_bind(uint64_t descriptor, uint32_t in_address, uint16_t in_port);
+int32_t cross_socket_bind(uint64_t descriptor, uint16_t in_port);
 
 int32_t cross_socket_listen_tcp(uint64_t descriptor, uint16_t connections_queue_length);
 

@@ -32,7 +32,7 @@ void cross_socket_close(uint64_t descriptor) {
     closesocket(descriptor);
 }
 
-int32_t cross_socket_bind(uint64_t descriptor, int32_t in_port) {
+int32_t cross_socket_bind(uint64_t descriptor, uint16_t in_port) {
     SOCKADDR_IN server;
 
     server.sin_family = AF_INET;
@@ -42,11 +42,11 @@ int32_t cross_socket_bind(uint64_t descriptor, int32_t in_port) {
     return bind(descriptor, (SOCKADDR*)&server, sizeof(server));
 }
 
-int32_t cross_socket_listen_tcp(uint64_t descriptor, int32_t connections_queue_length) {
+int32_t cross_socket_listen_tcp(uint64_t descriptor, uint16_t connections_queue_length) {
     return listen(descriptor, connections_queue_length);
 }
 
-int32_t cross_socket_connect_tcp(uint64_t descriptor, uint32_t in_address, int32_t in_port) {
+int32_t cross_socket_connect_tcp(uint64_t descriptor, uint32_t in_address, uint16_t in_port) {
     SOCKADDR_IN address;
 
     address.sin_family = AF_INET;
@@ -56,7 +56,7 @@ int32_t cross_socket_connect_tcp(uint64_t descriptor, uint32_t in_address, int32
     return connect(descriptor, (SOCKADDR*)&address, sizeof(address));
 }
 
-uint64_t cross_socket_accept_tcp(uint64_t descriptor, uint32_t* out_address) {
+uint64_t cross_socket_accept_tcp(uint64_t descriptor, uint32_t* out_address, uint16_t* out_port) {
     SOCKADDR_IN client_address;
     int client_address_length = sizeof(client_address);
 
@@ -72,7 +72,7 @@ int32_t cross_socket_receive_tcp(uint64_t descriptor, char* out_buffer, uint32_t
     return recv(descriptor, out_buffer, (int)in_buffer_length, 0);
 }
 
-int32_t cross_socket_receive_udp(uint64_t descriptor, char* out_buffer, uint32_t in_buffer_length, uint32_t* out_address, int32_t* out_port) {
+int32_t cross_socket_receive_udp(uint64_t descriptor, char* out_buffer, uint32_t in_buffer_length, uint32_t* out_address, uint16_t* out_port) {
     SOCKADDR_IN client_address;
     int client_address_length = sizeof(client_address);
 
@@ -88,7 +88,7 @@ void cross_socket_send_tcp(uint64_t descriptor, const char* in_buffer, uint32_t 
     send(descriptor, in_buffer, (int)in_buffer_length, 0);
 }
 
-void cross_socket_send_udp(uint64_t descriptor, const char* in_buffer, uint32_t in_buffer_length, uint32_t in_address, int32_t in_port) {
+void cross_socket_send_udp(uint64_t descriptor, const char* in_buffer, uint32_t in_buffer_length, uint32_t in_address, uint16_t in_port) {
     SOCKADDR_IN address;
 
     address.sin_family = AF_INET;
