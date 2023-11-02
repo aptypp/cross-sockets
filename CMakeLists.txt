@@ -25,6 +25,8 @@ endif ()
 
 #END platform settings
 
+set(IS_DYNAMIC_LIBRARY false)
+
 #START cross_socket_library
 
 if (TARGET_IS_WINDOWS)
@@ -35,8 +37,14 @@ endif ()
 
 FILE(GLOB INDEPENDENT_SRC src/*.c)
 
+if(${IS_DYNAMIC_LIBRARY})
+
 add_library(cross_sockets SHARED ${INDEPENDENT_SRC}
         ${PLATFORM_DEPENDENT_SRC})
+else ()
+    add_library(cross_sockets STATIC ${INDEPENDENT_SRC}
+            ${PLATFORM_DEPENDENT_SRC})
+endif ()
 
 if (TARGET_IS_WINDOWS)
     target_link_libraries(cross_sockets PRIVATE wsock32 ws2_32)
