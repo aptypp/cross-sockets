@@ -64,6 +64,7 @@ uint64_t cross_socket_accept_tcp(uint64_t descriptor, uint32_t* out_address, uin
     socket_descriptor = accept(descriptor, (SOCKADDR*)&client_address, &client_address_length);
 
     *out_address = ntohl(client_address.sin_addr.S_un.S_addr);
+    *out_port = ntohs(client_address.sin_port);
 
     return socket_descriptor;
 }
